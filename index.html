@@ -653,233 +653,309 @@ footer{background:#050505;border-top:1px solid rgba(255,255,255,.04);padding:60p
   #popup-brand { font-size: 28px; }
   #popup-body { padding: 20px; }
   #popup-title { font-size: 17px; }
-  #intro-name { font-size: 32px; }
-  #intro-svg { width: 160px; }
-}
+    }
 
-/* ══ INTRO ══════════════════════════════════════════════════════════ */
-#intro{
+/* ══ INTRO ════════════════════════════════════════════════════════ */
+#intro-scr{
   position:fixed;inset:0;z-index:9999;
-  background:#080808;
+  background:#080808 !important;
   display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
+  opacity:1 !important;
 }
-#intro.fade-out{
-  opacity:0;
-  transition:opacity .65s cubic-bezier(.4,0,.2,1);
+#intro-scr.out{
+  opacity:0 !important;
   pointer-events:none;
+  transition:opacity .65s ease !important;
 }
 #intro-inner{
-  display:flex;flex-direction:column;align-items:center;gap:0;
-  animation:iUp .9s cubic-bezier(.22,1,.36,1) .25s both;
+  display:flex;flex-direction:column;align-items:center;
+  opacity:1 !important;
+  transform:translateY(0);
+  animation:iEntrance .8s cubic-bezier(.22,1,.36,1) 0s forwards;
 }
 #intro-mtn{
-  width:clamp(160px,28vw,260px);height:auto;
-  filter:drop-shadow(0 0 40px rgba(255,115,24,.3));
+  width:clamp(150px,26vw,240px);
+  height:auto;
   margin-bottom:22px;
-}
-#intro-divider{
-  width:0;height:1px;
-  background:linear-gradient(to right,transparent,#FF7318 40%,#FF7318 60%,transparent);
-  margin-bottom:18px;
-  animation:iLine 1s cubic-bezier(.22,1,.36,1) .85s both;
+  opacity:1 !important;
+  display:block;
+  filter:drop-shadow(0 0 40px rgba(255,115,24,.45));
 }
 #intro-name{
   font-family:'Outfit','Inter',sans-serif;
-  font-size:clamp(28px,5vw,48px);font-weight:800;
-  letter-spacing:.2em;text-transform:uppercase;
-  color:#fff;line-height:1;margin-bottom:7px;
+  font-size:clamp(26px,4.5vw,46px);
+  font-weight:800;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:#ffffff !important;
+  opacity:1 !important;
+  line-height:1;
+  margin-bottom:6px;
 }
-#intro-sub{
+#intro-rule{
+  height:1px;
+  margin:16px auto;
+  background:linear-gradient(90deg,transparent,#FF7318 40%,#FF7318 60%,transparent);
+  animation:iRuleGrow .7s ease .35s both;
+  width:0;
+}
+#intro-tagline{
   font-family:'Outfit','Inter',sans-serif;
-  font-size:clamp(9px,1.4vw,11.5px);font-weight:500;
-  letter-spacing:.3em;text-transform:uppercase;
-  color:rgba(255,255,255,.32);
-  animation:iUp .7s ease 1.15s both;
+  font-size:clamp(9px,1.3vw,11px);
+  font-weight:500;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.55);
   opacity:0;
+  animation:iAppear .5s ease .55s forwards;
 }
-#intro-rd{
-  margin-top:28px;
+#intro-country{
+  margin-top:24px;
   font-family:'Outfit','Inter',sans-serif;
-  font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.28em;
+  text-transform:uppercase;
   color:#FF7318;
-  animation:iUp .6s ease 1.35s both;opacity:0;
+  opacity:0;
+  animation:iAppear .5s ease .78s forwards;
 }
-@keyframes iUp{
-  from{opacity:0;transform:translateY(16px)}
-  to{opacity:1;transform:translateY(0)}
+@keyframes iEntrance{
+  0%  { opacity:1; transform:translateY(18px); }
+  100%{ opacity:1; transform:translateY(0);    }
 }
-@keyframes iLine{
-  from{width:0}to{width:clamp(120px,20vw,200px)}
+@keyframes iRuleGrow{
+  from{ width:0; }
+  to  { width:clamp(100px,18vw,190px); }
+}
+@keyframes iAppear{
+  from{ opacity:0; transform:translateY(8px); }
+  to  { opacity:1; transform:none; }
 }
 
-/* ══ POPUP ═══════════════════════════════════════════════════════════ */
-#pop-ov{
+/* ══ POPUP LOADSCAN ═══════════════════════════════════════════════ */
+#pop-backdrop{
   position:fixed;inset:0;z-index:8888;
-  background:rgba(0,0,0,.75);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  display:none;align-items:center;justify-content:center;padding:16px;
+  background:rgba(0,0,0,.78);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  display:none;align-items:center;justify-content:center;
+  padding:16px;
+  box-sizing:border-box;
 }
-#pop-ov.on{display:flex;}
-#pop-box{
+#pop-backdrop.on{display:flex;}
+
+#pop-card{
   position:relative;
-  background:#fff;
-  max-width:560px;width:100%;
+  width:100%;
+  max-width:820px;
+  max-height:calc(100vh - 32px);
   overflow:hidden;
-  box-shadow:0 40px 100px rgba(0,0,0,.6);
+  box-shadow:0 24px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.06);
   animation:popIn .5s cubic-bezier(.22,1,.36,1) both;
+  display:flex;
+  flex-direction:column;
 }
 @keyframes popIn{
-  from{opacity:0;transform:translateY(28px) scale(.96)}
+  from{opacity:0;transform:translateY(24px) scale(.97)}
   to{opacity:1;transform:none}
 }
-/* close X */
-#pop-x{
-  position:absolute;top:12px;right:12px;z-index:5;
-  width:36px;height:36px;background:rgba(0,0,0,.45);border:none;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  border-radius:0;transition:background .2s;
-}
-#pop-x:hover{background:rgba(255,115,24,.8);}
-#pop-x svg{width:14px;height:14px;stroke:#fff;stroke-width:2.5;fill:none;}
-/* image area — full bleed, tall */
-#pop-img-wrap{
-  position:relative;height:320px;overflow:hidden;
-  background:#1a1a1a;
-}
-#pop-img-wrap img{
-  width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;
-}
-/* gradient overlay */
-#pop-img-wrap::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(
-    to bottom,
-    rgba(0,0,0,.15) 0%,
-    transparent 35%,
-    transparent 55%,
-    rgba(0,0,0,.65) 100%
-  );
-}
-/* text inside image */
-#pop-img-txt{
-  position:absolute;bottom:0;left:0;right:0;z-index:2;
-  padding:0 28px 24px;
-}
-#pop-logo-txt{
-  font-family:'Outfit','Inter',sans-serif;
-  font-size:36px;font-weight:900;letter-spacing:.06em;
-  color:#fff;line-height:1;text-transform:uppercase;
-  text-shadow:0 2px 12px rgba(0,0,0,.5);
-}
-#pop-logo-txt span{color:#FF7318;}
-#pop-logo-sub{
-  font-family:'Outfit','Inter',sans-serif;
-  font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(255,255,255,.6);margin-top:4px;
-}
-/* bottom content — WHITE bg like reference */
-#pop-body{
-  background:#fff;
-  padding:20px 28px 24px;
-}
-#pop-badge{
-  display:inline-block;
-  font-family:'Outfit','Inter',sans-serif;
-  font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
-  color:#FF7318;border:1px solid rgba(255,115,24,.35);
-  padding:4px 10px;margin-bottom:10px;
-}
-#pop-title{
-  font-family:'Outfit','Inter',sans-serif;
-  font-size:18px;font-weight:700;color:#111;
-  margin-bottom:8px;line-height:1.3;letter-spacing:-.01em;
-}
-#pop-desc{
-  font-size:13.5px;color:#666;line-height:1.75;margin-bottom:18px;
-}
-/* form row */
-#pop-form-row{
-  display:flex;gap:10px;align-items:stretch;
-}
-#pop-email{
-  flex:1;
-  border:1px solid #ddd;padding:12px 14px;
-  font-family:'Outfit','Inter',sans-serif;font-size:14px;color:#111;
-  outline:none;background:#fff;
-  transition:border-color .2s;
-  min-width:0;
-}
-#pop-email:focus{border-color:#FF7318;}
-#pop-email::placeholder{color:#aaa;}
-#pop-submit{
-  background:#FF7318;color:#fff;border:none;cursor:pointer;
-  font-family:'Outfit','Inter',sans-serif;
-  font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  padding:12px 22px;white-space:nowrap;
-  transition:background .25s,transform .25s;
+
+/* ── Background image — full width, fixed tall height ── */
+#pop-bg-wrap{
+  position:relative;
+  width:100%;
+  height:clamp(340px,55vh,520px);
+  overflow:hidden;
   flex-shrink:0;
 }
-#pop-submit:hover{background:#ff8c3a;transform:translateY(-1px);}
-#pop-skip2{
-  display:block;text-align:center;margin-top:12px;
-  font-family:'Outfit','Inter',sans-serif;
-  font-size:11.5px;color:#aaa;background:none;border:none;
-  cursor:pointer;letter-spacing:.08em;transition:color .2s;width:100%;
+#pop-bg{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center 55%;
+  display:block;
 }
-#pop-skip2:hover{color:#555;}
+/* Subtle gradient so text reads cleanly */
+#pop-bg-wrap::after{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.18) 0%, transparent 25%, transparent 55%, rgba(0,0,0,.35) 100%),
+    linear-gradient(to top,    rgba(0,0,0,.22) 0%, transparent 30%);
+  pointer-events:none;
+}
 
-@media(max-width:500px){
-  #pop-img-wrap{height:240px;}
-  #pop-logo-txt{font-size:28px;}
-  #pop-body{padding:16px 18px 20px;}
-  #pop-form-row{flex-direction:column;}
-  #pop-submit{padding:12px;}
+/* ── X button — top-right corner, OVER image ── */
+#pop-close{
+  position:absolute;
+  top:18px;right:20px;
+  z-index:10;
+  width:38px;height:38px;
+  background:rgba(0,0,0,.42);
+  border:1.5px solid rgba(255,255,255,.28);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:0;
+  transition:background .25s,border-color .25s,transform .25s;
+  padding:0;
 }
+#pop-close:hover{
+  background:rgba(255,255,255,.18);
+  border-color:rgba(255,255,255,.7);
+  transform:scale(1.08);
+}
+#pop-close svg{
+  width:15px;height:15px;
+  stroke:#fff;stroke-width:2.5;fill:none;stroke-linecap:round;
+}
+
+/* ── LOADSCAN branding — centered on image ── */
+#pop-brand-block{
+  position:absolute;
+  top:0;left:0;right:0;
+  z-index:5;
+  display:flex;flex-direction:column;align-items:center;
+  padding-top:clamp(18px,4vh,36px);
+}
+#pop-ls-name{
+  font-family:'Outfit','Inter',sans-serif;
+  font-size:clamp(32px,5.5vw,64px);
+  font-weight:900;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  line-height:1;
+  color:#fff;
+  text-shadow:0 2px 20px rgba(0,0,0,.5);
+}
+.ls-load{color:#ffffff;}
+.ls-scan{color:#d42010;}
+.ls-reg{
+  font-size:.38em;
+  vertical-align:super;
+  line-height:1;
+  margin-left:1px;
+  color:rgba(255,255,255,.85);
+  font-weight:400;
+}
+#pop-ls-sub{
+  font-family:'Outfit','Inter',sans-serif;
+  font-size:clamp(11px,1.6vw,17px);
+  font-weight:300;
+  letter-spacing:.08em;
+  color:rgba(255,255,255,.82);
+  margin-top:7px;
+  text-shadow:0 1px 10px rgba(0,0,0,.5);
+}
+
+/* ── Form row — bottom of image ── */
+#pop-form-block{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  z-index:5;
+  padding:clamp(12px,2.5vw,20px) clamp(16px,4vw,48px) clamp(16px,3vh,28px);
+}
+#pop-form-label{
+  display:block;
+  font-family:'Outfit','Inter',sans-serif;
+  font-size:clamp(12px,1.5vw,15px);
+  font-weight:400;font-style:italic;
+  color:rgba(255,255,255,.85);
+  margin-bottom:10px;
+  text-shadow:0 1px 8px rgba(0,0,0,.6);
+}
+#pop-row{
+  display:flex;gap:0;width:100%;
+  box-shadow:0 4px 24px rgba(0,0,0,.4);
+}
+#pop-input{
+  flex:1;min-width:0;
+  height:clamp(46px,6.5vh,58px);
+  border:none;outline:none;
+  background:#fff;
+  padding:0 20px;
+  font-family:'Outfit','Inter',sans-serif;
+  font-size:clamp(13px,1.5vw,15px);
+  color:#222;
+  box-sizing:border-box;
+}
+#pop-input::placeholder{color:#bbb;}
+#pop-input:focus{background:#fff;outline:2px solid rgba(232,146,26,.5);outline-offset:-2px;}
+#pop-submit{
+  height:clamp(46px,6.5vh,58px);
+  padding:0 clamp(20px,3.5vw,40px);
+  background:#E8921A;
+  border:none;cursor:pointer;
+  font-family:'Outfit','Inter',sans-serif;
+  font-size:clamp(13px,1.5vw,16px);
+  font-weight:700;letter-spacing:.08em;
+  color:#fff;white-space:nowrap;
+  transition:background .25s,transform .2s;
+  flex-shrink:0;
+}
+#pop-submit:hover{background:#ff9f30;transform:translateX(2px);}
+#pop-submit.sent{background:#2a9d4e;pointer-events:none;}
+
+@media(max-width:540px){
+  #pop-bg-wrap{height:clamp(320px,72vh,480px);}
+  #pop-ls-name{font-size:clamp(28px,8.5vw,44px);}
+  #pop-row{flex-direction:column;gap:8px;}
+  #pop-submit{height:48px;width:100%;transform:none!important;}
+  #pop-close{top:12px;right:12px;}
+}
+
 </style>
 </head>
 <body>
 
-<!-- ══ INTRO ══════════════════════════════════════════ -->
-<div id="intro">
-  <div id="intro-inner">
-    <svg id="intro-mtn" viewBox="0 0 200 60.44" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<!-- ══ INTRO SCREEN ════════════════════════════════════ -->
+<div id="intro-scr" style="background:#080808;opacity:1">
+  <div id="intro-inner" style="opacity:1">
+    <svg id="intro-mtn" style="opacity:1" viewBox="0 0 200 60.44" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path d="M199.75,60.44 L198.77,59.95 L197.79,59.46 L196.81,58.97 L195.82,58.47 L195.09,57.74 L194.35,57.0 L193.37,56.51 L192.38,56.02 L191.4,55.53 L190.42,55.03 L189.43,54.54 L188.7,53.81 L187.71,53.31 L186.73,52.82 L186.0,52.09 L185.01,51.6 L184.03,51.1 L183.05,50.61 L182.06,50.12 L181.08,49.63 L180.59,50.61 L180.34,51.84 L179.85,52.82 L179.36,53.81 L178.13,54.05 L177.64,53.07 L176.9,52.33 L175.92,51.84 L175.43,50.86 L174.69,50.12 L173.96,49.38 L173.22,48.65 L172.48,47.91 L171.74,47.17 L171.01,46.44 L170.27,45.7 L169.53,44.96 L168.8,44.22 L168.06,43.49 L167.32,42.75 L166.58,42.01 L165.85,41.28 L165.11,40.54 L164.37,39.8 L163.64,39.06 L162.9,38.33 L162.16,37.59 L160.93,37.35 L159.95,37.84 L159.21,38.57 L158.48,39.31 L157.99,40.29 L157.25,41.03 L156.51,41.77 L155.77,42.5 L155.04,43.24 L154.05,43.73 L153.81,42.5 L153.81,41.03 L153.81,39.56 L153.81,38.08 L153.81,36.61 L153.81,35.13 L153.81,33.66 L153.32,32.68 L152.58,31.94 L151.6,31.45 L150.86,30.71 L149.88,30.22 L149.14,29.48 L148.16,28.99 L147.17,28.5 L146.44,27.76 L145.45,27.27 L144.72,26.53 L143.73,26.04 L143.0,25.31 L142.01,24.81 L141.28,24.08 L140.29,23.59 L139.56,22.85 L138.57,22.36 L138.08,21.38 L137.35,20.64 L136.86,19.66 L136.12,18.92 L135.38,18.18 L134.64,17.44 L134.15,16.46 L133.42,15.72 L132.68,14.99 L132.19,14.0 L131.45,13.27 L130.47,12.78 L129.73,13.51 L128.99,14.25 L128.5,15.23 L127.76,15.97 L127.27,16.95 L126.54,17.69 L126.04,18.67 L125.55,19.66 L124.82,20.39 L124.32,21.38 L123.59,22.11 L123.1,23.09 L122.6,24.08 L121.87,24.81 L121.13,25.55 L120.88,26.78 L120.15,27.52 L119.66,28.5 L118.92,29.24 L118.43,30.22 L117.94,31.2 L117.2,31.94 L116.71,32.92 L115.72,33.41 L115.23,34.4 L114.25,34.89 L112.78,34.89 L111.79,34.4 L110.32,34.4 L109.34,33.91 L108.11,33.66 L106.88,33.41 L105.41,33.41 L104.91,34.4 L104.42,35.38 L103.69,36.12 L103.19,37.1 L102.7,38.08 L102.21,39.06 L101.72,40.05 L101.23,41.03 L100.74,42.01 L100.25,43.0 L99.51,43.73 L99.26,44.96 L98.53,45.7 L98.03,46.68 L97.3,47.42 L96.56,48.16 L95.58,48.65 L94.35,48.4 L93.12,48.16 L91.65,48.16 L90.66,47.66 L89.43,47.42 L88.21,47.17 L86.73,47.17 L85.26,47.17 L84.28,46.68 L82.8,46.68 L81.82,46.19 L80.34,46.19 L79.36,46.68 L78.38,47.17 L77.4,47.66 L76.41,48.16 L75.43,48.65 L74.45,49.14 L73.46,49.63 L72.48,50.12 L71.5,50.61 L70.52,51.1 L69.53,51.6 L68.55,52.09 L67.57,52.58 L66.58,53.07 L65.6,53.56 L64.62,54.05 L63.64,54.54 L62.65,55.03 L61.67,55.53 L60.69,56.02 L59.71,56.51 L58.48,56.75 L57.49,57.25 L56.76,57.98 L55.53,58.23 L54.79,58.97 L53.81,59.46 L52.83,59.95 L51.35,59.95 L50.86,59.46 L51.35,58.47 L52.09,57.74 L52.58,56.75 L53.32,56.02 L54.05,55.28 L54.79,54.54 L55.28,53.56 L56.02,52.82 L56.76,52.09 L57.49,51.35 L58.23,50.61 L59.21,50.12 L59.95,49.38 L60.93,48.89 L61.92,48.4 L62.9,47.91 L63.64,47.17 L64.62,46.68 L65.6,46.19 L66.34,45.45 L67.32,44.96 L68.06,44.22 L69.04,43.73 L70.02,43.24 L70.76,42.5 L71.74,42.01 L72.73,41.52 L73.46,40.78 L74.45,40.29 L75.43,39.8 L76.17,39.06 L77.15,38.57 L78.13,38.08 L78.87,37.35 L79.85,36.85 L80.84,36.36 L81.57,35.63 L82.56,35.13 L83.29,34.4 L84.28,33.91 L85.26,33.41 L86.24,32.92 L86.98,32.68 L87.71,32.43 L88.7,32.92 L89.93,33.17 L91.15,33.41 L92.14,33.91 L93.61,33.91 L94.59,34.4 L95.33,33.66 L96.07,32.92 L96.81,32.19 L97.54,31.45 L98.03,30.47 L98.77,29.73 L99.51,28.99 L100.25,28.25 L100.0,27.03 L99.26,26.29 L98.28,25.8 L97.54,25.06 L96.56,24.57 L95.58,24.08 L94.84,23.34 L93.86,22.85 L93.12,22.11 L92.14,21.62 L91.15,21.13 L90.42,20.39 L89.43,19.9 L88.7,19.16 L87.96,18.43 L87.22,17.69 L86.49,16.95 L86.0,15.97 L85.26,15.23 L84.52,14.5 L84.03,13.51 L83.29,12.78 L82.56,12.04 L82.06,11.06 L81.33,10.32 L80.59,9.58 L79.85,8.84 L78.87,9.34 L78.13,10.07 L77.4,10.81 L76.66,11.55 L76.17,12.53 L75.68,13.51 L75.18,14.5 L74.69,15.48 L73.71,15.97 L73.22,16.95 L72.73,17.94 L72.24,18.92 L71.5,19.66 L71.01,20.64 L70.27,21.38 L69.78,22.36 L69.29,23.34 L68.8,24.32 L68.06,25.06 L67.57,26.04 L66.83,26.78 L66.34,27.76 L65.6,28.5 L65.11,29.48 L64.37,30.22 L63.64,30.96 L62.9,31.2 L61.67,30.96 L60.69,30.47 L59.21,30.47 L58.23,29.97 L57.25,29.48 L55.77,29.48 L54.3,29.48 L53.81,30.47 L53.32,31.45 L52.58,32.19 L52.09,33.17 L51.6,34.15 L51.11,35.13 L50.61,36.12 L50.12,37.1 L49.39,37.84 L48.89,38.82 L48.4,39.8 L47.91,40.78 L47.42,41.77 L46.93,42.75 L46.44,43.73 L45.7,44.47 L44.47,44.72 L43.49,44.22 L42.01,44.22 L40.54,44.22 L39.56,43.73 L38.08,43.73 L37.1,43.24 L35.63,43.24 L34.15,43.24 L33.17,42.75 L31.7,42.75 L30.71,42.26 L29.24,42.26 L28.26,42.75 L27.27,43.24 L26.29,43.73 L25.31,44.22 L24.32,44.72 L23.1,44.96 L22.36,45.7 L21.13,45.94 L20.15,46.44 L19.41,47.17 L18.18,47.42 L17.44,48.16 L16.46,48.65 L15.48,49.14 L14.25,49.38 L13.51,50.12 L12.53,50.61 L11.55,51.1 L10.32,51.35 L9.34,51.84 L8.35,52.33 L7.62,53.07 L6.39,53.31 L5.65,54.05 L4.67,54.54 L3.44,54.79 L2.46,55.28 L1.47,55.77 L0.49,55.77 L0.25,55.03 L0.74,54.05 L1.47,53.31 L1.97,52.33 L2.7,51.6 L3.44,50.86 L3.93,49.88 L4.67,49.14 L5.16,48.16 L5.9,47.42 L6.88,46.93 L7.86,46.44 L8.6,45.7 L9.58,45.21 L10.57,44.72 L11.3,43.98 L12.29,43.49 L13.27,43.0 L14.0,42.26 L14.74,41.52 L15.97,41.28 L16.71,40.54 L17.69,40.05 L18.67,39.56 L19.41,38.82 L20.39,38.33 L21.38,37.84 L22.11,37.1 L23.1,36.61 L23.83,35.87 L24.82,35.38 L25.8,34.89 L26.54,34.15 L27.52,33.66 L28.26,32.92 L29.24,32.43 L30.22,31.94 L31.2,31.45 L32.19,30.96 L32.92,30.22 L33.66,29.48 L34.64,28.99 L35.63,28.5 L36.86,28.75 L38.08,28.99 L39.07,29.48 L40.54,29.48 L41.52,29.97 L43.0,29.97 L44.23,29.73 L44.96,28.99 L45.7,28.25 L46.44,27.52 L47.17,26.78 L47.67,25.8 L48.4,25.06 L49.14,24.32 L49.88,23.59 L50.61,22.85 L51.11,21.87 L51.84,21.13 L52.58,20.39 L53.32,19.66 L54.05,18.92 L54.55,17.94 L55.28,17.2 L56.02,16.46 L56.76,15.72 L57.49,14.99 L57.99,14.0 L58.72,13.27 L59.46,12.53 L60.2,11.79 L60.93,11.06 L61.67,10.32 L62.65,9.83 L63.64,9.34 L64.62,8.84 L65.36,8.11 L66.34,7.62 L67.32,7.13 L68.55,6.88 L69.53,6.39 L70.52,5.9 L71.5,5.41 L72.48,4.91 L73.22,4.18 L74.2,3.69 L74.94,2.95 L76.17,2.7 L77.15,2.21 L78.13,1.72 L79.12,1.23 L80.34,0.98 L81.33,0.49 L82.31,0.0 L83.29,0.49 L84.03,1.23 L84.77,1.97 L85.75,2.46 L86.73,2.95 L87.47,3.69 L88.21,4.42 L89.19,4.91 L89.93,5.65 L90.91,6.14 L91.65,6.88 L92.38,7.62 L93.37,8.11 L94.1,8.84 L95.09,9.34 L95.82,10.07 L96.56,10.81 L97.54,11.3 L98.53,11.79 L99.26,12.53 L100.0,13.27 L100.98,13.76 L101.72,14.5 L102.46,15.23 L103.44,15.72 L104.18,16.46 L105.41,16.71 L106.39,17.2 L107.37,17.69 L108.85,17.69 L109.83,17.2 L110.57,16.46 L111.3,15.72 L112.04,14.99 L112.78,14.25 L113.76,13.76 L114.74,13.27 L115.72,12.78 L116.71,12.28 L117.69,11.79 L118.67,11.3 L119.66,10.81 L120.39,10.07 L121.38,9.58 L122.6,9.34 L123.59,8.84 L124.32,8.11 L125.31,7.62 L126.29,7.13 L127.52,6.88 L128.5,6.39 L129.24,5.65 L130.47,5.41 L131.2,4.67 L132.19,4.18 L132.92,4.42 L134.15,4.67 L134.89,5.41 L135.87,5.9 L136.61,6.63 L137.59,7.13 L138.33,7.86 L139.31,8.35 L140.29,8.84 L141.03,9.58 L141.77,10.32 L142.75,10.81 L143.49,11.55 L144.47,12.04 L145.21,12.78 L145.95,13.51 L146.93,14.0 L147.67,14.74 L148.65,15.23 L149.39,15.97 L150.12,16.71 L151.11,17.2 L151.84,17.94 L152.58,18.67 L153.56,19.16 L154.3,19.9 L155.28,20.39 L156.27,20.88 L157.49,21.13 L158.48,21.62 L159.71,21.87 L160.93,22.11 L161.92,22.6 L162.9,23.09 L163.88,23.59 L165.36,23.59 L166.34,24.08 L167.32,24.57 L168.55,24.81 L169.78,25.06 L170.76,25.55 L171.74,26.04 L172.73,26.53 L173.71,27.03 L174.45,27.76 L174.94,28.75 L175.68,29.48 L176.41,30.22 L177.15,30.96 L177.89,31.69 L178.38,32.68 L178.87,33.66 L179.61,34.4 L180.34,35.13 L180.84,36.12 L181.57,36.85 L182.31,37.59 L183.05,38.33 L183.54,39.31 L184.28,40.05 L184.77,41.03 L185.75,41.52 L186.24,42.5 L186.98,43.24 L187.47,44.22 L188.21,44.96 L188.94,45.7 L189.68,46.44 L190.17,47.42 L190.91,48.16 L191.4,49.14 L192.14,49.88 L192.63,50.86 L193.37,51.6 L194.1,52.33 L194.84,53.07 L195.58,53.81 L196.07,54.79 L196.56,55.77 L197.3,56.51 L198.03,57.25 L198.53,58.23 L199.26,58.97 L200.0,59.7 Z" fill="#FF7318" fill-rule="nonzero"/>
     </svg>
-    <div id="intro-divider"></div>
-    <div id="intro-name">AGREMAS</div>
-    <div id="intro-sub">Materiales · Maquinaria · Servicios</div>
-    <div id="intro-rd">República Dominicana</div>
+    <div id="intro-name" style="opacity:1;color:#ffffff">AGREMAS</div>
+    <div id="intro-rule"></div>
+    <div id="intro-tagline">Materiales · Maquinaria · Servicios</div>
+    <div id="intro-country">República Dominicana</div>
   </div>
 </div>
 
-<!-- ══ POPUP ══════════════════════════════════════════ -->
-<div id="pop-ov">
-  <div id="pop-box">
-    <button id="pop-x" aria-label="Cerrar">
-      <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/></svg>
-    </button>
+<!-- ══ POPUP LOADSCAN ══════════════════════════════════ -->
+<div id="pop-backdrop">
+  <div id="pop-card">
 
-    <div id="pop-img-wrap">
-      <img src="https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg?auto=compress&cs=tinysrgb&w=900" alt="LOADSCAN"/>
-      <div id="pop-img-txt">
-        <div id="pop-logo-txt">LOAD<span>SCAN</span></div>
-        <div id="pop-logo-sub">accurate payload measurement</div>
+    <!-- Image wrap -->
+    <div id="pop-bg-wrap">
+      <img id="pop-bg"
+        src="https://images.pexels.com/photos/3617500/pexels-photo-3617500.jpeg?auto=compress&cs=tinysrgb&w=1400"
+        alt="LOADSCAN — accurate payload measurement"/>
+
+      <!-- X close button — inside bg-wrap so it's above the image -->
+      <button id="pop-close" aria-label="Cerrar popup">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+
+      <!-- LOADSCAN branding — top center over image -->
+      <div id="pop-brand-block">
+        <div id="pop-ls-name">
+          <span class="ls-load">L<span style="font-size:.68em;vertical-align:.05em;letter-spacing:0">&#9673;</span>AD</span><span class="ls-scan">SCAN</span><span class="ls-reg">®</span>
+        </div>
+        <div id="pop-ls-sub">accurate payload measurement</div>
+      </div>
+
+      <!-- Form — pinned to bottom of image -->
+      <div id="pop-form-block">
+        <label id="pop-form-label" for="pop-input">Para más información *</label>
+        <div id="pop-row">
+          <input type="text" id="pop-input" placeholder="" autocomplete="off"/>
+          <button id="pop-submit" type="button">Submit</button>
+        </div>
       </div>
     </div>
 
-    <div id="pop-body">
-      <div id="pop-badge">Representantes Oficiales · República Dominicana</div>
-      <div id="pop-title">Mide con precisión cada carga en tu obra</div>
-      <p id="pop-desc">Escaneado volumétrico en tiempo real para agregados y materiales a granel. Tecnología LOADSCAN disponible ahora en RD.</p>
-      <div id="pop-form-row">
-        <input type="email" id="pop-email" placeholder="Para más información, escribe tu correo"/>
-        <button id="pop-submit" type="button">Submit</button>
-      </div>
-      <button id="pop-skip2" type="button">No, gracias</button>
-    </div>
   </div>
 </div>
+
 
 <!-- NAV -->
 <nav id="nav">
@@ -1249,65 +1325,43 @@ document.getElementById("cform").addEventListener("submit",e=>{
   },1400);
 });
 
-/* ── INTRO + POPUP ────────────────────────────────────────────────── */
+
+/* ══ INTRO + POPUP ══════════════════════════════════════════════════ */
 (function(){
-  var intro = document.getElementById('intro');
-  var nav   = document.getElementById('nav');
-  if(!intro) return;
+  var scr = document.getElementById('intro-scr');
+  if(!scr) return;
+  document.body.style.overflow = 'hidden';
 
-  // Lock scroll
-  document.body.style.overflow='hidden';
-
-  // Phase 1: show intro for 2.2s
-  // Phase 2: logo morphs to nav — we fake this by fading intro out
-  // while making the nav logo "flash in" from center
   setTimeout(function(){
-    // Start nav logo highlight briefly
-    if(nav){
-      nav.style.transition='none';
-      var logo = nav.querySelector('.nav-logo');
-      if(logo) logo.style.transform='scale(1.15)';
-    }
-    // Fade intro out
-    intro.classList.add('fade-out');
-    document.body.style.overflow='';
-
+    scr.classList.add('out');
+    document.body.style.overflow = '';
     setTimeout(function(){
-      intro.style.display='none';
-      // Reset nav logo
-      if(nav){
-        var logo = nav.querySelector('.nav-logo');
-        if(logo){
-          logo.style.transition='transform .5s cubic-bezier(.22,1,.36,1)';
-          logo.style.transform='scale(1)';
-          setTimeout(function(){ logo.style.transition=''; logo.style.transform=''; },600);
-        }
-      }
+      scr.style.display = 'none';
       // Show popup
-      var popOv = document.getElementById('pop-ov');
-      if(popOv) popOv.classList.add('on');
-    }, 650);
-  }, 2200);
+      var bd = document.getElementById('pop-backdrop');
+      if(bd){ bd.classList.add('on'); document.body.style.overflow='hidden'; }
+    }, 700);
+  }, 2400);
 
-  // Popup close
   function closePopup(){
-    var p=document.getElementById('pop-ov');
-    if(!p) return;
-    p.style.transition='opacity .35s';
-    p.style.opacity='0';
-    setTimeout(function(){ p.style.display='none'; p.style.opacity=''; },350);
+    var bd = document.getElementById('pop-backdrop');
+    if(!bd) return;
+    bd.style.transition = 'opacity .35s';
+    bd.style.opacity = '0';
+    document.body.style.overflow = '';
+    setTimeout(function(){ bd.style.display='none'; bd.style.opacity=''; }, 350);
   }
-  document.getElementById('pop-x').addEventListener('click',closePopup);
-  document.getElementById('pop-skip2').addEventListener('click',closePopup);
-  document.getElementById('pop-ov').addEventListener('click',function(e){
-    if(e.target===this) closePopup();
+
+    document.getElementById('pop-close').addEventListener('click', closePopup);
+  document.getElementById('pop-backdrop').addEventListener('click', function(e){
+    if(e.target === this) closePopup();
   });
-  document.getElementById('pop-submit').addEventListener('click',function(){
-    var email=document.getElementById('pop-email').value.trim();
-    if(!email){ document.getElementById('pop-email').focus(); return; }
-    this.textContent='✓ Enviado';
-    this.style.background='#2a9d4e';
-    setTimeout(closePopup,1200);
+  document.getElementById('pop-submit').addEventListener('click', function(){
+    var val = document.getElementById('pop-input').value.trim();
+    if(!val){ document.getElementById('pop-input').focus(); return; }
+    this.textContent = '✓ Enviado';
+    this.classList.add('sent');
+    setTimeout(closePopup, 1300);
   });
 })();
 
